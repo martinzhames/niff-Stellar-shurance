@@ -3,6 +3,7 @@
 import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
+import { CheckCircle, Clock, XCircle, DollarSign, FileText } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -265,22 +266,57 @@ export function ClaimDetailView({ claimId }: ClaimDetailViewProps) {
 
         <Card>
           <CardHeader>
-            <CardTitle>Status history</CardTitle>
-            <CardDescription>All recorded status transitions in chronological order.</CardDescription>
+            <CardTitle>Status Timeline</CardTitle>
+            <CardDescription>On-chain status transitions with ledger numbers and timestamps.</CardDescription>
           </CardHeader>
           <CardContent>
-            <ol className="space-y-4" aria-label="Status history">
-              {claim.status_history.map((entry) => (
-                <li key={`${entry.status}-${entry.ledger}`} className="rounded-xl border bg-muted p-4">
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                      <p className="text-sm font-medium">{formatStatusLabel(entry.status)}</p>
-                      <p className="text-xs text-muted-foreground">Ledger {entry.ledger}</p>
+            <ol className="relative ml-4 border-l-2 border-muted-foreground/20" aria-label="Status timeline">
+              {claim.status_history.map((entry, index) => {
+                const isLatest = index === claim.status_history.length - 1
+                const statusIcon = (() => {
+                  switch (entry.status) {
+                    case 'approved': return <CheckCircle className="h-4 w-4 text-green-600" aria-hidden="true" />
+                    case 'paid': return <DollarSign className="h-4 w-4 text-blue-600" aria-hidden="true" />
+                    case 'rejected': return <XCircle className="h-4 w-4 text-red-600" aria-hidden="true" />
+                    case 'pending': return <Clock className="h-4 w-4 text-amber-500" aria-hidden="true" />
+                    default: return <FileText className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+                  }
+                })()
+                const dotColor = (() => {
+                  switch (entry.status) {
+                    case 'approved': return 'bg-green-500 border-green-200'
+                    case 'paid': return 'bg-blue-500 border-blue-200'
+                    case 'rejected': return 'bg-red-500 border-red-200'
+                    case 'pending': return 'bg-amber-500 border-amber-200'
+                    default: return 'bg-muted-foreground border-muted'
+                  }
+                })()
+
+                return (
+                  <li
+                    key={`${entry.status}-${entry.ledger}`}
+                    className="relative pb-8 pl-8 last:pb-0"
+                  >
+                    <div className={`absolute -left-[9px] top-1 h-4 w-4 rounded-full border-2 ${dotColor} ${isLatest ? 'ring-4 ring-primary/20' : ''}`} />
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        {statusIcon}
+                        <span className="text-sm font-semibold">{formatStatusLabel(entry.status)}</span>
+                        {isLatest && (
+                          <Badge variant={getStatusVariant(entry.status)} className="text-xs">
+                            Current
+                          </Badge>
+                        )}
+                      </div>
+                      <div className="flex flex-col gap-0.5 text-xs text-muted-foreground sm:flex-row sm:items-center sm:gap-3">
+                        <span className="font-mono">Ledger #{entry.ledger.toLocaleString()}</span>
+                        <span className="hidden sm:inline">·</span>
+                        <time dateTime={entry.timestamp}>{formatTimestamp(entry.timestamp)}</time>
+                      </div>
                     </div>
-                    <p className="text-xs text-muted-foreground">{formatTimestamp(entry.timestamp)}</p>
-                  </div>
-                </li>
-              ))}
+                  </li>
+                )
+              })}
             </ol>
           </CardContent>
         </Card>
