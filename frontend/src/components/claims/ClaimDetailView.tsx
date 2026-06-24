@@ -10,6 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { formatXlm } from '@/lib/formatTokenAmount'
 import { fetchClaimDetail, type ClaimDetailResponse } from '@/lib/api/claim-detail'
 import { useLatestLedger } from '@/hooks/use-latest-ledger'
+import { CommitRevealVotePanel } from './CommitRevealVotePanel'
 import { DeadlineCountdown } from './DeadlineCountdown'
 import { QuorumProgressBar } from './QuorumProgressBar'
 import { ClaimVotePanel } from './claim-vote-panel'
@@ -286,6 +287,8 @@ export function ClaimDetailView({ claimId }: ClaimDetailViewProps) {
       </div>
 
       <aside className="space-y-6">
+        <CommitRevealVotePanel claimId={claimId} />
+
         <Card>
           <CardHeader>
             <CardTitle>Vote on claim</CardTitle>
