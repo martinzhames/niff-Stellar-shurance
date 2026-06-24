@@ -13,6 +13,7 @@ import { fetchClaimDetail, type ClaimDetailResponse } from '@/lib/api/claim-deta
 import { useLatestLedger } from '@/hooks/use-latest-ledger'
 import { CommitRevealVotePanel } from './CommitRevealVotePanel'
 import { DeadlineCountdown } from './DeadlineCountdown'
+import { PayoutDeadlineCountdown } from './PayoutDeadlineCountdown'
 import { QuorumProgressBar } from './QuorumProgressBar'
 import { ClaimVotePanel } from './claim-vote-panel'
 
@@ -323,6 +324,13 @@ export function ClaimDetailView({ claimId }: ClaimDetailViewProps) {
       </div>
 
       <aside className="space-y-6">
+        {claim.metadata.status === 'approved' && claim.payout_deadline_ledger && latestLedger !== null && (
+          <PayoutDeadlineCountdown
+            payoutDeadlineLedger={claim.payout_deadline_ledger}
+            currentLedger={latestLedger}
+          />
+        )}
+
         <CommitRevealVotePanel claimId={claimId} />
 
         <Card>
