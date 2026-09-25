@@ -57,3 +57,6 @@ Copy `frontend/.env.example` → `frontend/.env.local`.
 
 <!-- handsoff-issue-1537 -->
 - #1537: Frontend — Admin configuration: assets, feature flags and pause controls
+
+<!-- handsoff-issue-1538 -->
+- #1538: Frontend — Admin governance: voters, delegations and audit log
