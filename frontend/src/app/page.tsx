@@ -1,29 +1,12 @@
-import dynamic from 'next/dynamic'
-
-import { Hero } from '@/components/landing/hero'
-import { Skeleton } from '@/components/ui/skeleton'
-const HowItWorks = dynamic(
-  () => import('@/components/landing/how-it-works').then((m) => m.HowItWorks),
-  { loading: () => <Skeleton className="h-96 w-full" /> }
-)
-
-const Security = dynamic(
-  () => import('@/components/landing/security').then((m) => m.Security),
-  { loading: () => <Skeleton className="h-96 w-full" /> }
-)
-
-const CTA = dynamic(
-  () => import('@/components/landing/cta').then((m) => m.CTA),
-  { loading: () => <Skeleton className="h-64 w-full" /> }
-)
-
-export default function Home() {
+export default function HomePage() {
   return (
-    <main>
-      <Hero />
-      <HowItWorks />
-      <Security />
-      <CTA />
-    </main>
-  )
+    <section className="mx-auto flex min-h-[60vh] max-w-3xl flex-col items-center justify-center gap-4 px-4 py-16 text-center">
+      <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+        NiffyInsur
+      </h1>
+      <p className="max-w-xl text-lg text-muted-foreground">
+        Parametric insurance powered by DAO governance on the Stellar network.
+      </p>
+    </section>
+  );
 }

@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
+  darkMode: ['class', '[data-theme="dark"]'],
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -51,19 +52,19 @@ const config: Config = {
         // warning  → Pending / Under review
         // error    → Expired / Rejected
         success: {
-          DEFAULT: 'hsl(142 71% 45%)',
-          foreground: 'hsl(0 0% 100%)',
-          subtle: 'hsl(142 71% 95%)',
+          DEFAULT: 'hsl(var(--success))',
+          foreground: 'hsl(var(--success-foreground))',
+          subtle: 'hsl(var(--success-subtle))',
         },
         warning: {
-          DEFAULT: 'hsl(48 96% 53%)',
-          foreground: 'hsl(0 0% 100%)',
-          subtle: 'hsl(48 96% 95%)',
+          DEFAULT: 'hsl(var(--warning))',
+          foreground: 'hsl(var(--warning-foreground))',
+          subtle: 'hsl(var(--warning-subtle))',
         },
         error: {
-          DEFAULT: 'hsl(0 84% 60%)',
-          foreground: 'hsl(0 0% 100%)',
-          subtle: 'hsl(0 84% 96%)',
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+          subtle: 'hsl(var(--destructive-subtle))',
         },
       },
 
@@ -88,6 +89,12 @@ const config: Config = {
       spacing: {
         '18': '4.5rem',
         '88': '22rem',
+      },
+      boxShadow: {
+        sm: 'var(--shadow-sm)',
+        DEFAULT: 'var(--shadow)',
+        md: 'var(--shadow-md)',
+        lg: 'var(--shadow-lg)',
       },
     },
   },
